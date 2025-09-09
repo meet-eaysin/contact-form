@@ -1,23 +1,42 @@
-import {type TPreferences} from "../../../../../remix-app/app/types";
-import {BlockStack, Checkbox, FormLayout, Select, Text} from "@shopify/polaris";
-import {LANGUAGES} from "../../../../../remix-app/app/utils/step-config";
-import {COMMUNICATION_FREQUENCY, FOLLOW_UP_METHOD, INTERESTS, REFERRAL_SOURCE} from "../../../utils/step-config";
+import { type TPreferences } from "../../../../../remix-app/app/types";
+import {
+  BlockStack,
+  Checkbox,
+  FormLayout,
+  Select,
+  Text,
+} from "@shopify/polaris";
+import { LANGUAGES } from "../../../../../remix-app/app/utils/step-config";
+import {
+  COMMUNICATION_FREQUENCY,
+  FOLLOW_UP_METHOD,
+  INTERESTS,
+  REFERRAL_SOURCE,
+} from "../../../utils/step-config";
 
 interface TPreferencesProps {
   data: TPreferences;
   errors?: any;
-  onChange: (field: keyof TPreferences, value: any) => void;
-  onNestedChange: (parentField: keyof TPreferences, childField: string, value: any) => void;
-  onArrayChange: (field: keyof TPreferences, value: string, checked: boolean) => void;
+  onChange: (field: string, value: string | boolean) => void;
+  onNestedChange: (
+    parentField: keyof TPreferences,
+    childField: string,
+    value: string | boolean,
+  ) => void;
+  onArrayChange: (
+    field: keyof TPreferences,
+    value: string,
+    checked: boolean,
+  ) => void;
 }
 
 export const Preferences = ({
-                           data,
-                           errors,
-                           onChange,
-                           onNestedChange,
-                           onArrayChange
-                         }: TPreferencesProps) => {
+  data,
+  errors,
+  onChange,
+  onNestedChange,
+  onArrayChange,
+}: TPreferencesProps) => {
   return (
     <FormLayout>
       <Text variant="headingMd" as="h3">
@@ -30,7 +49,7 @@ export const Preferences = ({
           name="communicationFrequency"
           options={COMMUNICATION_FREQUENCY}
           value={data.communicationFrequency}
-          onChange={(value) => onChange('communicationFrequency', value)}
+          onChange={(value) => onChange("communicationFrequency", value)}
           error={errors?.communicationFrequency}
         />
         <Select
@@ -38,7 +57,7 @@ export const Preferences = ({
           name="followUpMethod"
           options={FOLLOW_UP_METHOD}
           value={data.followUpMethod}
-          onChange={(value) => onChange('followUpMethod', value)}
+          onChange={(value) => onChange("followUpMethod", value)}
           error={errors?.followUpMethod}
         />
       </FormLayout.Group>
@@ -48,7 +67,7 @@ export const Preferences = ({
         name="language"
         options={LANGUAGES}
         value={data.language}
-        onChange={(value) => onChange('language', value)}
+        onChange={(value) => onChange("language", value)}
         error={errors?.language}
       />
 
@@ -66,7 +85,9 @@ export const Preferences = ({
               label={interest.label}
               name="interests"
               checked={data.interests.includes(interest.value)}
-              onChange={(checked) => onArrayChange('interests', interest.value, checked)}
+              onChange={(checked) =>
+                onArrayChange("interests", interest.value, checked)
+              }
             />
           ))}
         </BlockStack>
@@ -76,8 +97,8 @@ export const Preferences = ({
         label="How did you hear about us? (Optional)"
         name="referralSource"
         options={REFERRAL_SOURCE}
-        value={data.referralSource || ''}
-        onChange={(value) => onChange('referralSource', value)}
+        value={data.referralSource || ""}
+        onChange={(value) => onChange("referralSource", value)}
       />
 
       <Text variant="headingMd" as="h3">
@@ -89,7 +110,7 @@ export const Preferences = ({
           label="Subscribe to newsletter and product updates"
           name="newsletter"
           checked={data.newsletter}
-          onChange={(checked) => onChange('newsletter', checked)}
+          onChange={(checked) => onChange("newsletter", checked)}
           helpText="We'll send you occasional updates about our products and services"
         />
 
@@ -97,7 +118,7 @@ export const Preferences = ({
           label="I consent to receiving marketing communications"
           name="marketingConsent"
           checked={data.marketingConsent}
-          onChange={(checked) => onChange('marketingConsent', checked)}
+          onChange={(checked) => onChange("marketingConsent", checked)}
           helpText="We may contact you about our products, services, and promotional offers"
         />
 
@@ -105,7 +126,7 @@ export const Preferences = ({
           label="I consent to the processing of my personal data"
           name="dataProcessingConsent"
           checked={data.dataProcessingConsent}
-          onChange={(checked) => onChange('dataProcessingConsent', checked)}
+          onChange={(checked) => onChange("dataProcessingConsent", checked)}
           error={errors?.dataProcessingConsent}
           helpText="Required: We need your consent to process and respond to your inquiry"
         />
@@ -124,27 +145,35 @@ export const Preferences = ({
           label="I use a screen reader"
           name="screenReader"
           checked={data.accessibility.screenReader}
-          onChange={(checked) => onNestedChange('accessibility', 'screenReader', checked)}
+          onChange={(checked) =>
+            onNestedChange("accessibility", "screenReader", checked)
+          }
         />
         <Checkbox
           label="I prefer larger fonts"
           name="largeFonts"
           checked={data.accessibility.largeFonts}
-          onChange={(checked) => onNestedChange('accessibility', 'largeFonts', checked)}
+          onChange={(checked) =>
+            onNestedChange("accessibility", "largeFonts", checked)
+          }
         />
         <Checkbox
           label="I need high contrast mode"
           name="highContrast"
           checked={data.accessibility.highContrast}
-          onChange={(checked) => onNestedChange('accessibility', 'highContrast', checked)}
+          onChange={(checked) =>
+            onNestedChange("accessibility", "highContrast", checked)
+          }
         />
         <Checkbox
           label="I primarily use keyboard navigation"
           name="keyboardNavigation"
           checked={data.accessibility.keyboardNavigation}
-          onChange={(checked) => onNestedChange('accessibility', 'keyboardNavigation', checked)}
+          onChange={(checked) =>
+            onNestedChange("accessibility", "keyboardNavigation", checked)
+          }
         />
       </BlockStack>
     </FormLayout>
   );
-}
+};

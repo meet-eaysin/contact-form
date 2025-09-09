@@ -1,371 +1,219 @@
-# Shopify App Template - Remix
+# Multi-Step Contact Form
 
-This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using the [Remix](https://remix.run) framework.
+A comprehensive, accessible multi-step contact form built with Remix, TypeScript, and Shopify Polaris. This form provides a smooth user experience with client-side validation, progress tracking, and responsive design.
 
-Rather than cloning this repo, you can use your preferred package manager and the Shopify CLI with [these steps](https://shopify.dev/docs/apps/getting-started/create).
+## 🚀 Features
 
-Visit the [`shopify.dev` documentation](https://shopify.dev/docs/api/shopify-app-remix) for more details on the Remix app package.
+- **6-Step Progressive Form**: Personal Info → Contact Details → Company Info → Project Details → Preferences → Review
+- **Real-time Validation**: Client-side and server-side validation with detailed error messages
+- **Progress Tracking**: Visual progress bar and step badges
+- **Responsive Design**: Mobile-friendly interface using Shopify Polaris
+- **Type Safety**: Full TypeScript implementation
+- **Accessibility**: Screen reader support and keyboard navigation
+- **State Management**: Efficient form state handling with React hooks
+- **Server-Side Rendering**: Built with Remix for optimal performance
 
-## Quick start
+## 🛠️ Tech Stack
+
+- **Framework**: [Remix](https://remix.run/)
+- **UI Library**: [Shopify Polaris](https://polaris.shopify.com/)
+- **Language**: TypeScript
+- **Styling**: Polaris Design System
+- **Validation**: Custom validation utilities
+- **State Management**: React hooks (useState)
+
+## 📋 Form Steps
+
+1. **Personal Information** - Name, date of birth, gender, title
+2. **Contact Details** - Email, phone, address, time zone preferences
+3. **Company Information** - Company name, job title, industry details (optional)
+4. **Project Details** - Inquiry type, project scope, timeline, budget
+5. **Communication Preferences** - Newsletter, frequency, language, accessibility
+6. **Review & Submit** - Final review of all entered information
+
+## 🏗️ Project Structure
+
+```
+app/
+├── components/contact/
+│   ├── steps/
+│   │   ├── personal-info.tsx
+│   │   ├── contact-details.tsx  
+│   │   ├── company-info.tsx
+│   │   ├── project-details.tsx
+│   │   ├── preferences.tsx
+│   │   ├── review.tsx
+│   │   └── index.ts
+│   ├── action-buttons.tsx
+│   └── submit-feedback.tsx
+├── utils/
+│   ├── validation.ts
+│   └── step-config.ts
+├── types/
+│   └── index.ts
+└── routes/
+    └── contact.tsx
+```
+
+## 🔧 Installation & Setup
 
 ### Prerequisites
+- Node.js v20.x
+- npm or yarn package manager
 
-Before you begin, you'll need the following:
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd contact-form
+```
 
-1. **Node.js**: [Download and install](https://nodejs.org/en/download/) it if you haven't already.
-2. **Shopify Partner Account**: [Create an account](https://partners.shopify.com/signup) if you don't have one.
-3. **Test Store**: Set up either a [development store](https://help.shopify.com/en/partners/dashboard/development-stores#create-a-development-store) or a [Shopify Plus sandbox store](https://help.shopify.com/en/partners/dashboard/managing-stores/plus-sandbox-store) for testing your app.
+2. **Check Node version**
+```bash
+node --version
+# Should be v20.x or higher
+```
 
-### Setup
-
-If you used the CLI to create the template, you can skip this section.
-
-Using yarn:
-
-```shell
+3. **Install dependencies**
+```bash
+npm install
+# or
 yarn install
 ```
 
-Using npm:
-
-```shell
-npm install
+4. **Environment Setup**
+```bash
+cp .env.example .env
+# Configure your environment variables
 ```
 
-Using pnpm:
-
-```shell
-pnpm install
-```
-
-### Local Development
-
-Using yarn:
-
-```shell
+5. **Start development server**
+```bash
+npm run dev
+# or
 yarn dev
 ```
 
-Using npm:
+## 💻 Key Components
 
-```shell
-npm run dev
-```
+### Form Validation
+- **Email validation** with confirmation matching
+- **Phone number formatting** and validation
+- **Required field validation** with custom error messages
+- **Date validation** with age restrictions
+- **URL validation** for websites and LinkedIn profiles
 
-Using pnpm:
-
-```shell
-pnpm run dev
-```
-
-Press P to open the URL to your app. Once you click install, you can start development.
-
-Local development is powered by [the Shopify CLI](https://shopify.dev/docs/apps/tools/cli). It logs into your partners account, connects to an app, provides environment variables, updates remote config, creates a tunnel and provides commands to generate extensions.
-
-### Authenticating and querying data
-
-To authenticate and query data you can use the `shopify` const that is exported from `/app/shopify.server.js`:
-
-```js
-export async function loader({ request }) {
-  const { admin } = await shopify.authenticate.admin(request);
-
-  const response = await admin.graphql(`
-    {
-      products(first: 25) {
-        nodes {
-          title
-          description
-        }
-      }
-    }`);
-
-  const {
-    data: {
-      products: { nodes },
-    },
-  } = await response.json();
-
-  return nodes;
+### State Management
+```typescript
+// Centralized form data structure
+interface TCompleteFormData {
+  personalInfo: TPersonalInfo;
+  contactDetails: TContactDetails;
+  companyInfo: TCompanyInfo;
+  projectDetails: TProjectDetails;
+  preferences: TPreferences;
 }
 ```
 
-This template comes preconfigured with examples of:
+### Navigation System
+- **Server-side routing** with URL step parameters
+- **Form submission handling** for navigation
+- **Progress calculation** and step validation
+- **Previous/Next button logic** with validation checks
 
-1. Setting up your Shopify app in [/app/shopify.server.ts](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/shopify.server.ts)
-2. Querying data using Graphql. Please see: [/app/routes/app.\_index.tsx](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/routes/app._index.tsx).
-3. Responding to webhooks in individual files such as [/app/routes/webhooks.app.uninstalled.tsx](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/routes/webhooks.app.uninstalled.tsx) and [/app/routes/webhooks.app.scopes_update.tsx](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/routes/webhooks.app.scopes_update.tsx)
+## 🎯 Form Features
 
-Please read the [documentation for @shopify/shopify-app-remix](https://www.npmjs.com/package/@shopify/shopify-app-remix#authenticating-admin-requests) to understand what other API's are available.
+### Accessibility
+- WCAG 2.1 compliant design
+- Screen reader optimization
+- Keyboard navigation support
+- High contrast mode option
+- Large font size option
 
-## Deployment
+### User Experience
+- **Auto-save functionality** (maintains state across steps)
+- **Validation feedback** with specific error messages
+- **Progress indication** with completion percentage
+- **Step badges** showing current position and completion
+- **Responsive design** for mobile and desktop
 
-### Application Storage
+### Data Handling
+- **Type-safe form parsing** from FormData
+- **Structured data validation** at each step
+- **Error state management** with detailed feedback
+- **Final review step** before submission
 
-This template uses [Prisma](https://www.prisma.io/) to store session data, by default using an [SQLite](https://www.sqlite.org/index.html) database.
-The database is defined as a Prisma schema in `prisma/schema.prisma`.
+## 🔍 Validation Rules
 
-This use of SQLite works in production if your app runs as a single instance.
-The database that works best for you depends on the data your app needs and how it is queried.
-You can run your database of choice on a server yourself or host it with a SaaS company.
-Here's a short list of databases providers that provide a free tier to get started:
+| Field | Validation |
+|-------|------------|
+| Name | 2-50 characters, letters/spaces/hyphens only |
+| Email | Valid format + confirmation match |
+| Phone | International format support |
+| Age | Minimum 13 years old |
+| URLs | Valid HTTP/HTTPS format |
+| Required Fields | Non-empty validation |
 
-| Database   | Type             | Hosters                                                                                                                                                                                                                               |
-| ---------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MySQL      | SQL              | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-mysql), [Planet Scale](https://planetscale.com/), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/mysql) |
-| PostgreSQL | SQL              | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-postgresql), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres)                                   |
-| Redis      | Key-value        | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-redis), [Amazon MemoryDB](https://aws.amazon.com/memorydb/)                                                                                                        |
-| MongoDB    | NoSQL / Document | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-mongodb), [MongoDB Atlas](https://www.mongodb.com/atlas/database)                                                                                                  |
+## 🚀 Deployment
 
-To use one of these, you can use a different [datasource provider](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#datasource) in your `schema.prisma` file, or a different [SessionStorage adapter package](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
+The application is built for deployment on platforms supporting Remix:
 
-### Build
-
-Remix handles building the app for you, by running the command below with the package manager of your choice:
-
-Using yarn:
-
-```shell
-yarn build
-```
-
-Using npm:
-
-```shell
+1. **Build the application**
+```bash
 npm run build
 ```
 
-Using pnpm:
+2. **Deploy to your platform**
+- Vercel
+- Netlify
+- Railway
+- Or any Node.js hosting service
 
-```shell
-pnpm run build
-```
+## 📝 API Endpoints
 
-## Hosting
+### `POST /contact`
+Handles form submission with the following actions:
+- `previous` - Navigate to previous step
+- `next` - Validate current step and proceed
+- `submit` - Final form submission
 
-When you're ready to set up your app in production, you can follow [our deployment documentation](https://shopify.dev/docs/apps/deployment/web) to host your app on a cloud provider like [Heroku](https://www.heroku.com/) or [Fly.io](https://fly.io/).
-
-When you reach the step for [setting up environment variables](https://shopify.dev/docs/apps/deployment/web#set-env-vars), you also need to set the variable `NODE_ENV=production`.
-
-### Hosting on Vercel
-
-Using the Vercel Preset is recommended when hosting your Shopify Remix app on Vercel. You'll also want to ensure imports that would normally come from `@remix-run/node` are imported from `@vercel/remix` instead. Learn more about hosting Remix apps on Vercel [here](https://vercel.com/docs/frameworks/remix).
-
-```diff
-// vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig, type UserConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-+ import { vercelPreset } from '@vercel/remix/vite';
-
-installGlobals();
-
-export default defineConfig({
-  plugins: [
-    remix({
-      ignoredRouteFiles: ["**/.*"],
-+     presets: [vercelPreset()],
-    }),
-    tsconfigPaths(),
-  ],
-});
-```
-
-## Troubleshooting
-
-### Database tables don't exist
-
-If you get this error:
-
-```
-The table `main.Session` does not exist in the current database.
-```
-
-You need to create the database for Prisma. Run the `setup` script in `package.json` using your preferred package manager.
-
-### Navigating/redirecting breaks an embedded app
-
-Embedded Shopify apps must maintain the user session, which can be tricky inside an iFrame. To avoid issues:
-
-1. Use `Link` from `@remix-run/react` or `@shopify/polaris`. Do not use `<a>`.
-2. Use the `redirect` helper returned from `authenticate.admin`. Do not use `redirect` from `@remix-run/node`
-3. Use `useSubmit` or `<Form/>` from `@remix-run/react`. Do not use a lowercase `<form/>`.
-
-This only applies if your app is embedded, which it will be by default.
-
-### Non Embedded
-
-Shopify apps are best when they are embedded in the Shopify Admin, which is how this template is configured. If you have a reason to not embed your app please make the following changes:
-
-1. Ensure `embedded = false` is set in [shopify.app.toml`](./shopify.app.toml). [Docs here](https://shopify.dev/docs/apps/build/cli-for-apps/app-configuration#global).
-2. Pass `isEmbeddedApp: false` to `shopifyApp()` in `./app/shopify.server.js|ts`.
-3. Change the `isEmbeddedApp` prop to `isEmbeddedApp={false}` for the `AppProvider` in `/app/routes/app.jsx|tsx`.
-4. Remove the `@shopify/app-bridge-react` dependency from [package.json](./package.json) and `vite.config.ts|js`.
-5. Remove anything imported from `@shopify/app-bridge-react`.  For example: `NavMenu`, `TitleBar` and `useAppBridge`.
-
-### OAuth goes into a loop when I change my app's scopes
-
-If you change your app's scopes and authentication goes into a loop and fails with a message from Shopify that it tried too many times, you might have forgotten to update your scopes with Shopify.
-To do that, you can run the `deploy` CLI command.
-
-Using yarn:
-
-```shell
-yarn deploy
-```
-
-Using npm:
-
-```shell
-npm run deploy
-```
-
-Using pnpm:
-
-```shell
-pnpm run deploy
-```
-
-### My shop-specific webhook subscriptions aren't updated
-
-If you are registering webhooks in the `afterAuth` hook, using `shopify.registerWebhooks`, you may find that your subscriptions aren't being updated.  
-
-Instead of using the `afterAuth` hook, the recommended approach is to declare app-specific webhooks in the `shopify.app.toml` file.  This approach is easier since Shopify will automatically update changes to webhook subscriptions every time you run `deploy` (e.g: `npm run deploy`).  Please read these guides to understand more:
-
-1. [app-specific vs shop-specific webhooks](https://shopify.dev/docs/apps/build/webhooks/subscribe#app-specific-subscriptions)
-2. [Create a subscription tutorial](https://shopify.dev/docs/apps/build/webhooks/subscribe/get-started?framework=remix&deliveryMethod=https)
-
-If you do need shop-specific webhooks, please keep in mind that the package calls `afterAuth` in 2 scenarios:
-
-- After installing the app
-- When an access token expires
-
-During normal development, the app won't need to re-authenticate most of the time, so shop-specific subscriptions aren't updated. To force your app to update the subscriptions, you can uninstall and reinstall it in your development store. That will force the OAuth process and call the `afterAuth` hook.
-
-### Admin created webhook failing HMAC validation
-
-Webhooks subscriptions created in the [Shopify admin](https://help.shopify.com/en/manual/orders/notifications/webhooks) will fail HMAC validation. This is because the webhook payload is not signed with your app's secret key.  There are 2 solutions:
-
-1. Use [app-specific webhooks](https://shopify.dev/docs/apps/build/webhooks/subscribe#app-specific-subscriptions) defined in your toml file instead (recommended)
-2. Create [webhook subscriptions](https://shopify.dev/docs/api/shopify-app-remix/v1/guide-webhooks) using the `shopifyApp` object.
-
-Test your webhooks with the [Shopify CLI](https://shopify.dev/docs/apps/tools/cli/commands#webhook-trigger) or by triggering events manually in the Shopify admin(e.g. Updating the product title to trigger a `PRODUCTS_UPDATE`).
-
-### Incorrect GraphQL Hints
-
-By default the [graphql.vscode-graphql](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql) extension for VS Code will assume that GraphQL queries or mutations are for the [Shopify Admin API](https://shopify.dev/docs/api/admin). This is a sensible default, but it may not be true if:
-
-1. You use another Shopify API such as the storefront API.
-2. You use a third party GraphQL API.
-
-in this situation, please update the [.graphqlrc.ts](https://github.com/Shopify/shopify-app-template-remix/blob/main/.graphqlrc.ts) config.
-
-### First parameter has member 'readable' that is not a ReadableStream.
-
-See [hosting on Vercel](#hosting-on-vercel).
-
-### Admin object undefined on webhook events triggered by the CLI
-
-When you trigger a webhook event using the Shopify CLI, the `admin` object will be `undefined`. This is because the CLI triggers an event with a valid, but non-existent, shop. The `admin` object is only available when the webhook is triggered by a shop that has installed the app.
-
-Webhooks triggered by the CLI are intended for initial experimentation testing of your webhook configuration. For more information on how to test your webhooks, see the [Shopify CLI documentation](https://shopify.dev/docs/apps/tools/cli/commands#webhook-trigger).
-
-### Using Defer & await for streaming responses
-
-To test [streaming using defer/await](https://remix.run/docs/en/main/guides/streaming) during local development you'll need to use the Shopify CLI slightly differently:
-
-1. First setup ngrok: https://ngrok.com/product/secure-tunnels
-2. Create an ngrok tunnel on port 8080: `ngrok http 8080`.
-3. Copy the forwarding address. This should be something like: `https://f355-2607-fea8-bb5c-8700-7972-d2b5-3f2b-94ab.ngrok-free.app`
-4. In a separate terminal run `yarn shopify app dev --tunnel-url=TUNNEL_URL:8080` replacing `TUNNEL_URL` for the address you copied in step 3.
-
-By default the CLI uses a cloudflare tunnel. Unfortunately it cloudflare tunnels wait for the Response stream to finish, then sends one chunk.
-
-This will not affect production, since tunnels are only for local development.
-
-### Using MongoDB and Prisma
-
-By default this template uses SQLlite as the database. It is recommended to move to a persisted database for production. If you choose to use MongoDB, you will need to make some modifications to the schema and prisma configuration. For more information please see the [Prisma MongoDB documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb).
-
-Alternatively you can use a MongDB database directly with the [MongoDB session storage adapter](https://github.com/Shopify/shopify-app-js/tree/main/packages/apps/session-storage/shopify-app-session-storage-mongodb).
-
-#### Mapping the id field
-
-In MongoDB, an ID must be a single field that defines an @id attribute and a @map("\_id") attribute.
-The prisma adapter expects the ID field to be the ID of the session, and not the \_id field of the document.
-
-To make this work you can add a new field to the schema that maps the \_id field to the id field. For more information see the [Prisma documentation](https://www.prisma.io/docs/orm/prisma-schema/data-model/models#defining-an-id-field)
-
-```prisma
-model Session {
-  session_id  String    @id @default(auto()) @map("_id") @db.ObjectId
-  id          String    @unique
-...
+### Response Format
+```typescript
+interface ActionData {
+  currentStep?: EFormStep;
+  errors?: ValidationErrors;
+  success?: boolean;
+  message?: string;
 }
 ```
 
-#### Error: The "mongodb" provider is not supported with this command
+## 🔄 Form Flow
 
-MongoDB does not support the [prisma migrate](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate/overview) command. Instead, you can use the [prisma db push](https://www.prisma.io/docs/orm/reference/prisma-cli-reference#db-push) command and update the `shopify.web.toml` file with the following commands. If you are using MongoDB please see the [Prisma documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb) for more information.
+1. User enters information on current step
+2. Clicks "Continue" to trigger validation
+3. If valid, redirects to next step with updated URL
+4. If invalid, displays errors and remains on current step
+5. Final step shows review of all data
+6. Submit button processes complete form
 
-```toml
-[commands]
-predev = "npx prisma generate && npx prisma db push"
-dev = "npm exec remix vite:dev"
-```
+## 🧪 Testing Considerations
 
-#### Prisma needs to perform transactions, which requires your mongodb server to be run as a replica set
+- Form validation across all steps
+- Navigation between steps
+- Error handling and display
+- Accessibility compliance
+- Mobile responsiveness
+- Data persistence during navigation
 
-See the [Prisma documentation](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb/connect-your-database-node-mongodb) for connecting to a MongoDB database.
+## 🔒 Security Features
 
-### I want to use Polaris v13.0.0 or higher
+- Server-side validation on all inputs
+- XSS protection through proper data handling
+- CSRF protection via Remix's built-in features
+- Input sanitization and validation
 
-Currently, this template is set up to work on node v18.20 or higher. However, `@shopify/polaris` is limited to v12 because v13 can only run on node v20+.
+## 📊 Performance
 
-You don't have to make any changes to the code in order to be able to upgrade Polaris to v13, but you'll need to do the following:
-
-- Upgrade your node version to v20.10 or higher.
-- Update your `Dockerfile` to pull `FROM node:20-alpine` instead of `node:18-alpine`
-
-### "nbf" claim timestamp check failed
-
-This error will occur of the `nbf` claim timestamp check failed. This is because the JWT token is expired.
-If you  are consistently getting this error, it could be that the clock on your machine is not in sync with the server.
-
-To fix this ensure you have enabled `Set time and date automatically` in the `Date and Time` settings on your computer.
-
-## Benefits
-
-Shopify apps are built on a variety of Shopify tools to create a great merchant experience.
-
-<!-- TODO: Uncomment this after we've updated the docs -->
-<!-- The [create an app](https://shopify.dev/docs/apps/getting-started/create) tutorial in our developer documentation will guide you through creating a Shopify app using this template. -->
-
-The Remix app template comes with the following out-of-the-box functionality:
-
-- [OAuth](https://github.com/Shopify/shopify-app-js/tree/main/packages/shopify-app-remix#authenticating-admin-requests): Installing the app and granting permissions
-- [GraphQL Admin API](https://github.com/Shopify/shopify-app-js/tree/main/packages/shopify-app-remix#using-the-shopify-admin-graphql-api): Querying or mutating Shopify admin data
-- [Webhooks](https://github.com/Shopify/shopify-app-js/tree/main/packages/shopify-app-remix#authenticating-webhook-requests): Callbacks sent by Shopify when certain events occur
-- [AppBridge](https://shopify.dev/docs/api/app-bridge): This template uses the next generation of the Shopify App Bridge library which works in unison with previous versions.
-- [Polaris](https://polaris.shopify.com/): Design system that enables apps to create Shopify-like experiences
-
-## Tech Stack
-
-This template uses [Remix](https://remix.run). The following Shopify tools are also included to ease app development:
-
-- [Shopify App Remix](https://shopify.dev/docs/api/shopify-app-remix) provides authentication and methods for interacting with Shopify APIs.
-- [Shopify App Bridge](https://shopify.dev/docs/apps/tools/app-bridge) allows your app to seamlessly integrate your app within Shopify's Admin.
-- [Polaris React](https://polaris.shopify.com/) is a powerful design system and component library that helps developers build high quality, consistent experiences for Shopify merchants.
-- [Webhooks](https://github.com/Shopify/shopify-app-js/tree/main/packages/shopify-app-remix#authenticating-webhook-requests): Callbacks sent by Shopify when certain events occur
-- [Polaris](https://polaris.shopify.com/): Design system that enables apps to create Shopify-like experiences
-
-## Resources
-
-- [Remix Docs](https://remix.run/docs/en/v1)
-- [Shopify App Remix](https://shopify.dev/docs/api/shopify-app-remix)
-- [Introduction to Shopify apps](https://shopify.dev/docs/apps/getting-started)
-- [App authentication](https://shopify.dev/docs/apps/auth)
-- [Shopify CLI](https://shopify.dev/docs/apps/tools/cli)
-- [App extensions](https://shopify.dev/docs/apps/app-extensions/list)
-- [Shopify Functions](https://shopify.dev/docs/api/functions)
-- [Getting started with internationalizing your app](https://shopify.dev/docs/apps/best-practices/internationalization/getting-started)
+- Server-side rendering for fast initial load
+- Minimal client-side JavaScript
+- Optimized bundle size with tree shaking
+- Progressive enhancement approach

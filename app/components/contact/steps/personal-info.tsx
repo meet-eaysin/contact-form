@@ -1,14 +1,24 @@
-import {BlockStack, FormLayout, RadioButton, Text, TextField} from "@shopify/polaris";
-import {type TPersonalInfo} from "../../../../../remix-app/app/types";
-import {GENDER} from "../../../utils/step-config";
+import {
+  BlockStack,
+  FormLayout,
+  RadioButton,
+  Text,
+  TextField,
+} from "@shopify/polaris";
+import { type TPersonalInfo } from "../../../../../remix-app/app/types";
+import { GENDER } from "../../../utils/step-config";
 
 interface TPersonalInfoProps {
   data: TPersonalInfo;
   errors?: Partial<Record<keyof TPersonalInfo, string>>;
-  onChange: (field: keyof TPersonalInfo, value: any) => void;
+  onChange: (field: keyof TPersonalInfo, value: string) => void;
 }
 
-export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => {
+export const PersonalInfo = ({
+  data,
+  errors,
+  onChange,
+}: TPersonalInfoProps) => {
   return (
     <FormLayout>
       <FormLayout.Group>
@@ -16,7 +26,7 @@ export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => 
           label="First Name"
           name="firstName"
           value={data.firstName}
-          onChange={(value) => onChange('firstName', value)}
+          onChange={(value) => onChange("firstName", value)}
           error={errors?.firstName}
           autoComplete="given-name"
         />
@@ -24,7 +34,7 @@ export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => 
           label="Last Name"
           name="lastName"
           value={data.lastName}
-          onChange={(value) => onChange('lastName', value)}
+          onChange={(value) => onChange("lastName", value)}
           error={errors?.lastName}
           autoComplete="family-name"
         />
@@ -33,8 +43,8 @@ export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => 
       <TextField
         label="Middle Name (Optional)"
         name="middleName"
-        value={data.middleName || ''}
-        onChange={(value) => onChange('middleName', value)}
+        value={data.middleName || ""}
+        onChange={(value) => onChange("middleName", value)}
         error={errors?.middleName}
         autoComplete="additional-name"
       />
@@ -43,18 +53,18 @@ export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => 
         <TextField
           label="Title/Prefix (Optional)"
           name="title"
-          value={data.title || ''}
-          onChange={(value) => onChange('title', value)}
+          value={data.title || ""}
+          onChange={(value) => onChange("title", value)}
           error={errors?.title}
           placeholder="Mr., Mrs., Dr., etc."
-          autoComplete={'honorific-prefix'}
+          autoComplete={"honorific-prefix"}
         />
         <TextField
           label="Date of Birth (Optional)"
           name="dateOfBirth"
           type="date"
-          value={data.dateOfBirth || ''}
-          onChange={(value) => onChange('dateOfBirth', value)}
+          value={data.dateOfBirth || ""}
+          onChange={(value) => onChange("dateOfBirth", value)}
           error={errors?.dateOfBirth}
           helpText="Must be 13 years or older"
           autoComplete="bday"
@@ -73,11 +83,11 @@ export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => 
               name="gender"
               checked={data.gender === option.value}
               id={`gender-${option.value}`}
-              onChange={() => onChange('gender', option.value)}
+              onChange={() => onChange("gender", option.value)}
             />
           ))}
         </BlockStack>
       </div>
     </FormLayout>
   );
-}
+};

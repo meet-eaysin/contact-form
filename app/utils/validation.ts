@@ -9,7 +9,6 @@ import {
   type ValidationErrors
 } from "../types";
 
-
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[\+]?[1-9][\d\s\-\(\)\.]{8,19}$/;
 const URL_REGEX = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
@@ -51,7 +50,6 @@ export function validatePersonalInfo(data: Partial<TPersonalInfo>): Record<keyof
     const birthDate = new Date(data.dateOfBirth);
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
 
     if (isNaN(birthDate.getTime())) {
       errors.dateOfBirth = "Please enter a valid date";
@@ -67,7 +65,7 @@ export function validatePersonalInfo(data: Partial<TPersonalInfo>): Record<keyof
   return Object.keys(errors).length > 0 ? errors as Record<keyof TPersonalInfo, string> : null;
 }
 
-export function validateContactDetails(data: Partial<TContactDetails>): any {
+export function validateContactDetails(data: Partial<TContactDetails>) {
   const errors: any = {};
 
   if (!data.email?.trim()) {
@@ -91,22 +89,12 @@ export function validateContactDetails(data: Partial<TContactDetails>): any {
   }
 
   if (data.alternatePhone && data.alternatePhone.trim()) {
-    if (!PHONE_REGEX.test(data.alternatePhone.trim())) {
-      errors.alternatePhone = "Please enter a valid alternate phone number";
-    }
+    if (!PHONE_REGEX.test(data.alternatePhone.trim())) errors.alternatePhone = "Please enter a valid alternate phone number";
   }
+  if (!data.preferredContactMethod) errors.preferredContactMethod = "Please select a preferred contact method";
+  if (!data.timeZone?.trim()) errors.timeZone = "Please select a time zone";
+  if (!data.bestTimeToContact || data.bestTimeToContact.length === 0) errors.bestTimeToContact = "Please select at least one preferred time";
 
-  if (!data.preferredContactMethod) {
-    errors.preferredContactMethod = "Please select a preferred contact method";
-  }
-
-  if (!data.timeZone?.trim()) {
-    errors.timeZone = "Please select a time zone";
-  }
-
-  if (!data.bestTimeToContact || data.bestTimeToContact.length === 0) {
-    errors.bestTimeToContact = "Please select at least one preferred time";
-  }
 
   const addressErrors: Record<string, string> = {};
 
@@ -115,30 +103,20 @@ export function validateContactDetails(data: Partial<TContactDetails>): any {
   } else if (data.address.street.trim().length < 5) {
     addressErrors.street = "Street address must be at least 5 characters";
   }
-
   if (!data.address?.city?.trim()) {
     addressErrors.city = "City is required";
   } else if (data.address.city.trim().length < 2) {
     addressErrors.city = "City must be at least 2 characters";
   }
 
-  if (!data.address?.state?.trim()) {
-    addressErrors.state = "State/Province is required";
-  }
-
+  if (!data.address?.state?.trim()) addressErrors.state = "State/Province is required";
   if (!data.address?.zipCode?.trim()) {
     addressErrors.zipCode = "ZIP/Postal code is required";
   } else if (!ZIP_REGEX.test(data.address.zipCode.trim())) {
     addressErrors.zipCode = "Please enter a valid ZIP/Postal code";
   }
-
-  if (!data.address?.country?.trim()) {
-    addressErrors.country = "Country is required";
-  }
-
-  if (Object.keys(addressErrors).length > 0) {
-    errors.address = addressErrors;
-  }
+  if (!data.address?.country?.trim()) addressErrors.country = "Country is required";
+  if (Object.keys(addressErrors).length > 0) errors.address = addressErrors;
 
   return Object.keys(errors).length > 0 ? errors : null;
 }
@@ -196,27 +174,18 @@ export function validateProjectDetails(data: Partial<TProjectDetails
   } else if (data.message.trim().length > 2000) {
     errors.message = "Message must be less than 2000 characters";
   }
-  if (!data.projectType || data.projectType.length === 0) {
-    errors.projectType = "Please select at least one project type";
-  }
-  if (data.technicalRequirements && data.technicalRequirements.trim().length > 1000) {
-    errors.technicalRequirements = "Technical requirements must be less than 1000 characters";
-  }
-  if (data.currentSolution && data.currentSolution.trim().length > 500) {
-    errors.currentSolution = "Current solution description must be less than 500 characters";
-  }
-  if (data.expectedOutcome && data.expectedOutcome.trim().length > 500) {
-    errors.expectedOutcome = "Expected outcome must be less than 500 characters";
-  }
-  if (data.successMetrics && data.successMetrics.trim().length > 500) {
-    errors.successMetrics = "Success metrics must be less than 500 characters";
-  }
+  if (!data.projectType || data.projectType.length === 0) errors.projectType = "Please select at least one project type";
+  if (data.technicalRequirements && data.technicalRequirements.trim().length > 1000) errors.technicalRequirements = "Technical requirements must be less than 1000 characters";
+  if (data.currentSolution && data.currentSolution.trim().length > 500) errors.currentSolution = "Current solution description must be less than 500 characters";
+  if (data.expectedOutcome && data.expectedOutcome.trim().length > 500) errors.expectedOutcome = "Expected outcome must be less than 500 characters";
+  if (data.successMetrics && data.successMetrics.trim().length > 500) errors.successMetrics = "Success metrics must be less than 500 characters";
+
 
   return Object.keys(errors).length > 0 ? errors as Record<keyof TProjectDetails, string> : null;
 }
 
 export function validatePreferences(data: Partial<TPreferences
->): any {
+>) {
   const errors: any = {};
 
   if (!data.dataProcessingConsent) errors.dataProcessingConsent = "You must consent to data processing to continue";
@@ -228,7 +197,6 @@ export function validatePreferences(data: Partial<TPreferences
 }
 
 export function validateStep(step: EFormStep, data: Partial<TCompleteFormData>): ValidationErrors | null {
-  console.log("PERSONASL INFO", data.personalInfo);
   const errors: ValidationErrors = {};
 
   switch (step) {
@@ -279,8 +247,4 @@ export function validateStep(step: EFormStep, data: Partial<TCompleteFormData>):
   }
 
   return Object.keys(errors).length > 0 ? errors : null;
-}
-
-export function isStepComplete(step: EFormStep, data: Partial<TCompleteFormData>): boolean {
-  return validateStep(step, data) === null;
 }

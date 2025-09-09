@@ -1,4 +1,4 @@
-import {type TCompleteFormData} from "../../../../../remix-app/app/types";
+import { type TCompleteFormData } from "../../../../../remix-app/app/types";
 import {
   Banner,
   BlockStack,
@@ -19,7 +19,7 @@ interface TReviewProps {
   data: TCompleteFormData;
 }
 
-export const Review = ({data}: TReviewProps) => {
+export const Review = ({ data }: TReviewProps) => {
   return (
     <BlockStack>
       <Banner tone="info">
@@ -43,9 +43,7 @@ export const Review = ({data}: TReviewProps) => {
             {data.personalInfo.dateOfBirth && (
               <List.Item>
                 <strong>Date of Birth:</strong>{" "}
-                {new Date(
-                  data.personalInfo.dateOfBirth
-                ).toLocaleDateString()}
+                {new Date(data.personalInfo.dateOfBirth).toLocaleDateString()}
               </List.Item>
             )}
             {data.personalInfo.gender && (
@@ -84,7 +82,7 @@ export const Review = ({data}: TReviewProps) => {
               <strong>Time Zone:</strong>{" "}
               {
                 TIME_ZONES.find(
-                  (tz) => tz.value === data.contactDetails.timeZone
+                  (tz) => tz.value === data.contactDetails.timeZone,
                 )?.label
               }
             </List.Item>
@@ -101,7 +99,7 @@ export const Review = ({data}: TReviewProps) => {
               {data.contactDetails.address.zipCode},{" "}
               {
                 COUNTRIES.find(
-                  (c) => c.value === data.contactDetails.address.country
+                  (c) => c.value === data.contactDetails.address.country,
                 )?.label
               }
             </List.Item>
@@ -136,15 +134,15 @@ export const Review = ({data}: TReviewProps) => {
                   <strong>Industry:</strong>{" "}
                   {
                     INDUSTRIES.find(
-                      (i) => i.value === data.companyInfo.industry
+                      (i) => i.value === data.companyInfo.industry,
                     )?.label
                   }
                 </List.Item>
               )}
               {data.companyInfo.companySize && (
                 <List.Item>
-                  <strong>Company Size:</strong>{" "}
-                  {data.companyInfo.companySize} employees
+                  <strong>Company Size:</strong> {data.companyInfo.companySize}{" "}
+                  employees
                 </List.Item>
               )}
               {data.companyInfo.website && (
@@ -191,7 +189,7 @@ export const Review = ({data}: TReviewProps) => {
               {data.projectDetails.projectType
                 .map(
                   (type) =>
-                    PROJECT_TYPES.find((pt) => pt.value === type)?.label
+                    PROJECT_TYPES.find((pt) => pt.value === type)?.label,
                 )
                 .join(", ")}
             </List.Item>
@@ -234,9 +232,8 @@ export const Review = ({data}: TReviewProps) => {
             <List.Item>
               <strong>Language:</strong>{" "}
               {
-                LANGUAGES.find(
-                  (l) => l.value === data.preferences.language
-                )?.label
+                LANGUAGES.find((l) => l.value === data.preferences.language)
+                  ?.label
               }
             </List.Item>
             <List.Item>
@@ -268,4 +265,4 @@ export const Review = ({data}: TReviewProps) => {
       </Card>
     </BlockStack>
   );
-}
+};

@@ -6,7 +6,7 @@ import {BUDGET, INDUSTRY_TYPE, PRIORITY, TIMELINE} from "../../../utils/step-con
 interface ProjectDetailsProps {
   data: TProjectDetails;
   errors?: Partial<Record<keyof TProjectDetails, string>>;
-  onChange: (field: keyof TProjectDetails, value: any) => void;
+  onChange: (field: keyof TProjectDetails, value: string) => void;
   onArrayChange: (field: keyof TProjectDetails, value: string, checked: boolean) => void;
 }
 

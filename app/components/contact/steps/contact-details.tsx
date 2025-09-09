@@ -1,23 +1,42 @@
-import {type TContactDetails} from "../../../../../remix-app/app/types";
-import {BlockStack, Checkbox, FormLayout, RadioButton, Select, Text, TextField} from "@shopify/polaris";
-import {COUNTRIES, TIME_ZONES} from "../../../../../remix-app/app/utils/step-config";
-import {BEST_TIME_TO_CONTACT} from "../../../utils/step-config";
+import { type TContactDetails } from "../../../../../remix-app/app/types";
+import {
+  BlockStack,
+  Checkbox,
+  FormLayout,
+  RadioButton,
+  Select,
+  Text,
+  TextField,
+} from "@shopify/polaris";
+import {
+  BEST_TIME_TO_CONTACT,
+  COUNTRIES,
+  TIME_ZONES,
+} from "../../../utils/step-config";
 
 interface TContactDetailsProps {
   data: TContactDetails;
   errors?: any;
   onChange: (field: keyof TContactDetails, value: any) => void;
-  onNestedChange: (parentField: keyof TContactDetails, childField: string, value: any) => void;
-  onArrayChange: (field: keyof TContactDetails, value: string, checked: boolean) => void;
+  onNestedChange: (
+    parentField: keyof TContactDetails,
+    childField: string,
+    value: any,
+  ) => void;
+  onArrayChange: (
+    field: keyof TContactDetails,
+    value: string,
+    checked: boolean,
+  ) => void;
 }
 
 export const ContactDetails = ({
-                                 data,
-                                 errors,
-                                 onChange,
-                                 onNestedChange,
-                                 onArrayChange
-                               }: TContactDetailsProps) => {
+  data,
+  errors,
+  onChange,
+  onNestedChange,
+  onArrayChange,
+}: TContactDetailsProps) => {
   return (
     <FormLayout>
       <FormLayout.Group>
@@ -26,7 +45,7 @@ export const ContactDetails = ({
           name="email"
           type="email"
           value={data.email}
-          onChange={(value) => onChange('email', value)}
+          onChange={(value) => onChange("email", value)}
           error={errors?.email}
           autoComplete="email"
         />
@@ -35,7 +54,7 @@ export const ContactDetails = ({
           name="confirmEmail"
           type="email"
           value={data.confirmEmail}
-          onChange={(value) => onChange('confirmEmail', value)}
+          onChange={(value) => onChange("confirmEmail", value)}
           error={errors?.confirmEmail}
           autoComplete="email"
         />
@@ -47,7 +66,7 @@ export const ContactDetails = ({
           name="phone"
           type="tel"
           value={data.phone}
-          onChange={(value) => onChange('phone', value)}
+          onChange={(value) => onChange("phone", value)}
           error={errors?.phone}
           autoComplete="tel"
         />
@@ -55,8 +74,8 @@ export const ContactDetails = ({
           label="Alternate Phone (Optional)"
           name="alternatePhone"
           type="tel"
-          value={data.alternatePhone || ''}
-          onChange={(value) => onChange('alternatePhone', value)}
+          value={data.alternatePhone || ""}
+          onChange={(value) => onChange("alternatePhone", value)}
           error={errors?.alternatePhone}
           autoComplete="tel"
         />
@@ -67,7 +86,7 @@ export const ContactDetails = ({
         name="timeZone"
         options={TIME_ZONES}
         value={data.timeZone}
-        onChange={(value) => onChange('timeZone', value)}
+        onChange={(value) => onChange("timeZone", value)}
         error={errors?.timeZone}
       />
 
@@ -77,9 +96,9 @@ export const ContactDetails = ({
         </Text>
         <BlockStack>
           {[
-            {label: 'Email', value: 'email'},
-            {label: 'Phone', value: 'phone'},
-            {label: 'Both', value: 'both'},
+            { label: "Email", value: "email" },
+            { label: "Phone", value: "phone" },
+            { label: "Both", value: "both" },
           ].map((option) => (
             <RadioButton
               key={option.value}
@@ -87,7 +106,7 @@ export const ContactDetails = ({
               name="preferredContactMethod"
               checked={data.preferredContactMethod === option.value}
               id={`contact-method-${option.value}`}
-              onChange={() => onChange('preferredContactMethod', option.value)}
+              onChange={() => onChange("preferredContactMethod", option.value)}
             />
           ))}
         </BlockStack>
@@ -109,7 +128,9 @@ export const ContactDetails = ({
               label={option.label}
               name="bestTimeToContact"
               checked={data.bestTimeToContact.includes(option.value)}
-              onChange={(checked) => onArrayChange('bestTimeToContact', option.value, checked)}
+              onChange={(checked) =>
+                onArrayChange("bestTimeToContact", option.value, checked)
+              }
             />
           ))}
         </BlockStack>
@@ -123,7 +144,7 @@ export const ContactDetails = ({
         label="Street Address"
         name="street"
         value={data.address.street}
-        onChange={(value) => onNestedChange('address', 'street', value)}
+        onChange={(value) => onNestedChange("address", "street", value)}
         error={errors?.address?.street}
         autoComplete="street-address"
       />
@@ -132,8 +153,8 @@ export const ContactDetails = ({
         <TextField
           label="Apartment, Suite, etc. (Optional)"
           name="apartment"
-          value={data.address.apartment || ''}
-          onChange={(value) => onNestedChange('address', 'apartment', value)}
+          value={data.address.apartment || ""}
+          onChange={(value) => onNestedChange("address", "apartment", value)}
           autoComplete="address-line2"
         />
 
@@ -141,7 +162,7 @@ export const ContactDetails = ({
           label="State/Province"
           name="state"
           value={data.address.state}
-          onChange={(value) => onNestedChange('address', 'state', value)}
+          onChange={(value) => onNestedChange("address", "state", value)}
           error={errors?.address?.state}
           autoComplete="address-level1"
         />
@@ -152,7 +173,7 @@ export const ContactDetails = ({
           label="ZIP/Postal Code"
           name="zipCode"
           value={data.address.zipCode}
-          onChange={(value) => onNestedChange('address', 'zipCode', value)}
+          onChange={(value) => onNestedChange("address", "zipCode", value)}
           error={errors?.address?.zipCode}
           autoComplete="postal-code"
         />
@@ -160,7 +181,7 @@ export const ContactDetails = ({
           label="City"
           name="city"
           value={data.address.city}
-          onChange={(value) => onNestedChange('address', 'city', value)}
+          onChange={(value) => onNestedChange("address", "city", value)}
           error={errors?.address?.city}
           autoComplete="address-level2"
         />
@@ -171,9 +192,9 @@ export const ContactDetails = ({
         name="country"
         options={COUNTRIES}
         value={data.address.country}
-        onChange={(value) => onNestedChange('address', 'country', value)}
+        onChange={(value) => onNestedChange("address", "country", value)}
         error={errors?.address?.country}
       />
     </FormLayout>
   );
-}
+};

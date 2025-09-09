@@ -1,8 +1,9 @@
 import {type TContactDetails} from "../../../../../remix-app/app/types";
 import {BlockStack, Checkbox, FormLayout, RadioButton, Select, Text, TextField} from "@shopify/polaris";
 import {COUNTRIES, TIME_ZONES} from "../../../../../remix-app/app/utils/step-config";
+import {BEST_TIME_TO_CONTACT} from "../../../utils/step-config";
 
-interface TContactDetailsStepProps {
+interface TContactDetailsProps {
   data: TContactDetails;
   errors?: any;
   onChange: (field: keyof TContactDetails, value: any) => void;
@@ -10,13 +11,13 @@ interface TContactDetailsStepProps {
   onArrayChange: (field: keyof TContactDetails, value: string, checked: boolean) => void;
 }
 
-function ContactDetails({
-                              data,
-                              errors,
-                              onChange,
-                              onNestedChange,
-                              onArrayChange
-                            }: TContactDetailsStepProps) {
+export const ContactDetails = ({
+                                 data,
+                                 errors,
+                                 onChange,
+                                 onNestedChange,
+                                 onArrayChange
+                               }: TContactDetailsProps) => {
   return (
     <FormLayout>
       <FormLayout.Group>
@@ -76,9 +77,9 @@ function ContactDetails({
         </Text>
         <BlockStack>
           {[
-            { label: 'Email', value: 'email' },
-            { label: 'Phone', value: 'phone' },
-            { label: 'Both', value: 'both' },
+            {label: 'Email', value: 'email'},
+            {label: 'Phone', value: 'phone'},
+            {label: 'Both', value: 'both'},
           ].map((option) => (
             <RadioButton
               key={option.value}
@@ -102,12 +103,7 @@ function ContactDetails({
           </Text>
         )}
         <BlockStack>
-          {[
-            { label: 'Morning (9 AM - 12 PM)', value: 'morning' },
-            { label: 'Afternoon (12 PM - 5 PM)', value: 'afternoon' },
-            { label: 'Evening (5 PM - 9 PM)', value: 'evening' },
-            { label: 'Weekends', value: 'weekends' },
-          ].map((option) => (
+          {BEST_TIME_TO_CONTACT.map((option) => (
             <Checkbox
               key={option.value}
               label={option.label}
@@ -132,23 +128,15 @@ function ContactDetails({
         autoComplete="street-address"
       />
 
-      <TextField
-        label="Apartment, Suite, etc. (Optional)"
-        name="apartment"
-        value={data.address.apartment || ''}
-        onChange={(value) => onNestedChange('address', 'apartment', value)}
-        autoComplete="address-line2"
-      />
-
       <FormLayout.Group>
         <TextField
-          label="City"
-          name="city"
-          value={data.address.city}
-          onChange={(value) => onNestedChange('address', 'city', value)}
-          error={errors?.address?.city}
-          autoComplete="address-level2"
+          label="Apartment, Suite, etc. (Optional)"
+          name="apartment"
+          value={data.address.apartment || ''}
+          onChange={(value) => onNestedChange('address', 'apartment', value)}
+          autoComplete="address-line2"
         />
+
         <TextField
           label="State/Province"
           name="state"
@@ -168,17 +156,24 @@ function ContactDetails({
           error={errors?.address?.zipCode}
           autoComplete="postal-code"
         />
-        <Select
-          label="Country"
-          name="country"
-          options={COUNTRIES}
-          value={data.address.country}
-          onChange={(value) => onNestedChange('address', 'country', value)}
-          error={errors?.address?.country}
+        <TextField
+          label="City"
+          name="city"
+          value={data.address.city}
+          onChange={(value) => onNestedChange('address', 'city', value)}
+          error={errors?.address?.city}
+          autoComplete="address-level2"
         />
       </FormLayout.Group>
+
+      <Select
+        label="Country"
+        name="country"
+        options={COUNTRIES}
+        value={data.address.country}
+        onChange={(value) => onNestedChange('address', 'country', value)}
+        error={errors?.address?.country}
+      />
     </FormLayout>
   );
 }
-
-export default ContactDetails;

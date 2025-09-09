@@ -47,16 +47,11 @@ export function validatePersonalInfo(data: Partial<TPersonalInfo>): Record<keyof
     }
   }
 
-  // Date of birth validation (optional)
   if (data.dateOfBirth) {
     const birthDate = new Date(data.dateOfBirth);
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      // Adjust age if birthday hasn't occurred this year
-    }
 
     if (isNaN(birthDate.getTime())) {
       errors.dateOfBirth = "Please enter a valid date";
@@ -233,6 +228,7 @@ export function validatePreferences(data: Partial<TPreferences
 }
 
 export function validateStep(step: EFormStep, data: Partial<TCompleteFormData>): ValidationErrors | null {
+  console.log("PERSONASL INFO", data.personalInfo);
   const errors: ValidationErrors = {};
 
   switch (step) {

@@ -1,13 +1,14 @@
 import {BlockStack, FormLayout, RadioButton, Text, TextField} from "@shopify/polaris";
 import {type TPersonalInfo} from "../../../../../remix-app/app/types";
+import {GENDER} from "../../../utils/step-config";
 
-interface PersonalInfoStepProps {
+interface TPersonalInfoProps {
   data: TPersonalInfo;
   errors?: Partial<Record<keyof TPersonalInfo, string>>;
   onChange: (field: keyof TPersonalInfo, value: any) => void;
 }
 
-function PersonalInfo({ data, errors, onChange }: PersonalInfoStepProps) {
+export const PersonalInfo = ({ data, errors, onChange }: TPersonalInfoProps) => {
   return (
     <FormLayout>
       <FormLayout.Group>
@@ -65,12 +66,7 @@ function PersonalInfo({ data, errors, onChange }: PersonalInfoStepProps) {
           Gender (Optional)
         </Text>
         <BlockStack>
-          {[
-            { label: 'Male', value: 'male' },
-            { label: 'Female', value: 'female' },
-            { label: 'Other', value: 'other' },
-            { label: 'Prefer not to say', value: 'prefer-not-to-say' },
-          ].map((option) => (
+          {GENDER.map((option) => (
             <RadioButton
               key={option.value}
               label={option.label}
@@ -85,5 +81,3 @@ function PersonalInfo({ data, errors, onChange }: PersonalInfoStepProps) {
     </FormLayout>
   );
 }
-
-export default PersonalInfo;

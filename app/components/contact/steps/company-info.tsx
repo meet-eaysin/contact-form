@@ -1,14 +1,15 @@
-import {TCompanyInfo} from "../../../../../remix-app/app/types";
+import { type TCompanyInfo } from "../../../../../remix-app/app/types";
 import {Banner, FormLayout, Select, TextField} from "@shopify/polaris";
 import {INDUSTRIES} from "../../../../../remix-app/app/utils/step-config";
+import {ANNUAL_REVENUE, BUSINESS_TYPES, COMPANY_SIZES} from "../../../utils/step-config";
 
-type TCompanyInfoStepProps = {
+type TCompanyInfoProps = {
   data: TCompanyInfo;
   errors?: Partial<Record<keyof TCompanyInfo, string>>;
   onChange: (field: keyof TCompanyInfo, value: any) => void;
 }
 
-function CompanyInfo({ data, errors, onChange }: TCompanyInfoStepProps) {
+export const CompanyInfo = ({ data, errors, onChange }: TCompanyInfoProps) => {
   return (
     <FormLayout>
       <Banner tone="info">
@@ -46,6 +47,7 @@ function CompanyInfo({ data, errors, onChange }: TCompanyInfoStepProps) {
         <Select
           label="Industry"
           name="industry"
+          error={errors?.industry}
           options={[{ label: 'Select industry...', value: '' }, ...INDUSTRIES]}
           value={data.industry || ''}
           onChange={(value) => onChange('industry', value)}
@@ -56,30 +58,16 @@ function CompanyInfo({ data, errors, onChange }: TCompanyInfoStepProps) {
         <Select
           label="Company Size"
           name="companySize"
-          options={[
-            { label: 'Select size...', value: '' },
-            { label: '1-10 employees', value: '1-10' },
-            { label: '11-50 employees', value: '11-50' },
-            { label: '51-200 employees', value: '51-200' },
-            { label: '201-500 employees', value: '201-500' },
-            { label: '501-1000 employees', value: '501-1000' },
-            { label: '1000+ employees', value: '1000+' },
-          ]}
+          error={errors?.companySize}
+          options={COMPANY_SIZES}
           value={data.companySize || ''}
           onChange={(value) => onChange('companySize', value)}
         />
         <Select
           label="Annual Revenue"
           name="annualRevenue"
-          options={[
-            { label: 'Select revenue...', value: '' },
-            { label: 'Less than $1M', value: 'less-than-1m' },
-            { label: '$1M - $10M', value: '1m-10m' },
-            { label: '$10M - $50M', value: '10m-50m' },
-            { label: '$50M - $100M', value: '50m-100m' },
-            { label: '$100M - $500M', value: '100m-500m' },
-            { label: '$500M+', value: '500m+' },
-          ]}
+          error={errors?.annualRevenue}
+          options={ANNUAL_REVENUE}
           value={data.annualRevenue || ''}
           onChange={(value) => onChange('annualRevenue', value)}
         />
@@ -111,19 +99,11 @@ function CompanyInfo({ data, errors, onChange }: TCompanyInfoStepProps) {
       <Select
         label="Business Type"
         name="businessType"
-        options={[
-          { label: 'Select type...', value: '' },
-          { label: 'Business to Business (B2B)', value: 'b2b' },
-          { label: 'Business to Consumer (B2C)', value: 'b2c' },
-          { label: 'Both B2B and B2C', value: 'both' },
-          { label: 'Non-Profit', value: 'non-profit' },
-          { label: 'Government', value: 'government' },
-        ]}
+        error={errors?.businessType}
+        options={BUSINESS_TYPES}
         value={data.businessType || ''}
         onChange={(value) => onChange('businessType', value)}
       />
     </FormLayout>
   );
 }
-
-export default CompanyInfo;

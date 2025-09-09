@@ -1,30 +1,23 @@
 import {type TProjectDetails} from "../../../../../remix-app/app/types";
 import {BlockStack, Checkbox, FormLayout, Select, Text, TextField} from "@shopify/polaris";
 import {PROJECT_TYPES} from "../../../../../remix-app/app/utils/step-config";
+import {BUDGET, INDUSTRY_TYPE, PRIORITY, TIMELINE} from "../../../utils/step-config";
 
-interface ProjectDetailsStepProps {
+interface ProjectDetailsProps {
   data: TProjectDetails;
   errors?: Partial<Record<keyof TProjectDetails, string>>;
   onChange: (field: keyof TProjectDetails, value: any) => void;
   onArrayChange: (field: keyof TProjectDetails, value: string, checked: boolean) => void;
 }
 
-function ProjectDetails({ data, errors, onChange, onArrayChange }: ProjectDetailsStepProps) {
+export const ProjectDetails = ({ data, errors, onChange, onArrayChange }: ProjectDetailsProps) => {
   return (
     <FormLayout>
       <FormLayout.Group>
         <Select
           label="Inquiry Type"
           name="inquiryType"
-          options={[
-            { label: 'General Inquiry', value: 'general' },
-            { label: 'Technical Support', value: 'support' },
-            { label: 'Sales Question', value: 'sales' },
-            { label: 'Partnership', value: 'partnership' },
-            { label: 'Technical Discussion', value: 'technical' },
-            { label: 'Billing Question', value: 'billing' },
-            { label: 'Other', value: 'other' },
-          ]}
+          options={INDUSTRY_TYPE}
           value={data.inquiryType}
           onChange={(value) => onChange('inquiryType', value)}
           error={errors?.inquiryType}
@@ -32,12 +25,7 @@ function ProjectDetails({ data, errors, onChange, onArrayChange }: ProjectDetail
         <Select
           label="Priority"
           name="priority"
-          options={[
-            { label: 'Low', value: 'low' },
-            { label: 'Medium', value: 'medium' },
-            { label: 'High', value: 'high' },
-            { label: 'Urgent', value: 'urgent' },
-          ]}
+          options={PRIORITY}
           value={data.priority}
           onChange={(value) => onChange('priority', value)}
           error={errors?.priority}
@@ -58,27 +46,14 @@ function ProjectDetails({ data, errors, onChange, onArrayChange }: ProjectDetail
         <Select
           label="Budget Range"
           name="budget"
-          options={[
-            { label: 'Select budget...', value: '' },
-            { label: 'Less than $5,000', value: 'less-than-5k' },
-            { label: '$5,000 - $25,000', value: '5k-25k' },
-            { label: '$25,000 - $100,000', value: '25k-100k' },
-            { label: '$100,000 - $500,000', value: '100k-500k' },
-            { label: '$500,000+', value: '500k+' },
-          ]}
+          options={BUDGET}
           value={data.budget || ''}
           onChange={(value) => onChange('budget', value)}
         />
         <Select
           label="Timeline"
           name="timeline"
-          options={[
-            { label: 'ASAP', value: 'asap' },
-            { label: 'Within 1 month', value: 'within-1-month' },
-            { label: '1-3 months', value: '1-3-months' },
-            { label: '3-6 months', value: '3-6-months' },
-            { label: '6+ months', value: '6-months+' },
-          ]}
+          options={TIMELINE}
           value={data.timeline}
           onChange={(value) => onChange('timeline', value)}
           error={errors?.timeline}
@@ -90,9 +65,7 @@ function ProjectDetails({ data, errors, onChange, onArrayChange }: ProjectDetail
           Project Type (Select all that apply)
         </Text>
         {errors?.projectType && (
-          <Text variant="bodySm" as="p" tone="critical">
-            {errors.projectType}
-          </Text>
+          <Text variant="bodySm" as="p" tone="critical">{errors.projectType}</Text>
         )}
         <BlockStack>
           {PROJECT_TYPES.map((type) => (

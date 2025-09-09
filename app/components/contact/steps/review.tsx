@@ -19,7 +19,7 @@ interface TReviewProps {
   data: TCompleteFormData;
 }
 
-function Review({data}: TReviewProps) {
+export const Review = ({data}: TReviewProps) => {
   return (
     <BlockStack>
       <Banner tone="info">
@@ -29,7 +29,6 @@ function Review({data}: TReviewProps) {
         </p>
       </Banner>
 
-      {/* Personal Information Review */}
       <Card>
         <BlockStack>
           <Text variant="headingMd" as="h3">
@@ -59,7 +58,6 @@ function Review({data}: TReviewProps) {
         </BlockStack>
       </Card>
 
-      {/* Contact Details Review */}
       <Card>
         <BlockStack>
           <Text variant="headingMd" as="h3">
@@ -111,7 +109,6 @@ function Review({data}: TReviewProps) {
         </BlockStack>
       </Card>
 
-      {/* Company Information Review */}
       {(data.companyInfo.companyName || data.companyInfo.jobTitle) && (
         <Card>
           <BlockStack>
@@ -160,7 +157,6 @@ function Review({data}: TReviewProps) {
         </Card>
       )}
 
-      {/* Project Details Review */}
       <Card>
         <BlockStack>
           <Text variant="headingMd" as="h3">
@@ -221,7 +217,6 @@ function Review({data}: TReviewProps) {
         </BlockStack>
       </Card>
 
-      {/* Communication Preferences Review */}
       <Card>
         <BlockStack>
           <Text variant="headingMd" as="h3">
@@ -274,5 +269,3 @@ function Review({data}: TReviewProps) {
     </BlockStack>
   );
 }
-
-export default Review;

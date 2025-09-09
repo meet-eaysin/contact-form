@@ -1,6 +1,7 @@
 import {type TPreferences} from "../../../../../remix-app/app/types";
 import {BlockStack, Checkbox, FormLayout, Select, Text} from "@shopify/polaris";
 import {LANGUAGES} from "../../../../../remix-app/app/utils/step-config";
+import {COMMUNICATION_FREQUENCY, FOLLOW_UP_METHOD, INTERESTS, REFERRAL_SOURCE} from "../../../utils/step-config";
 
 interface TPreferencesProps {
   data: TPreferences;
@@ -10,13 +11,13 @@ interface TPreferencesProps {
   onArrayChange: (field: keyof TPreferences, value: string, checked: boolean) => void;
 }
 
-function Preferences({
+export const Preferences = ({
                            data,
                            errors,
                            onChange,
                            onNestedChange,
                            onArrayChange
-                         }: TPreferencesProps) {
+                         }: TPreferencesProps) => {
   return (
     <FormLayout>
       <Text variant="headingMd" as="h3">
@@ -27,12 +28,7 @@ function Preferences({
         <Select
           label="Communication Frequency"
           name="communicationFrequency"
-          options={[
-            { label: 'Immediately', value: 'immediately' },
-            { label: 'Daily digest', value: 'daily' },
-            { label: 'Weekly summary', value: 'weekly' },
-            { label: 'Monthly update', value: 'monthly' },
-          ]}
+          options={COMMUNICATION_FREQUENCY}
           value={data.communicationFrequency}
           onChange={(value) => onChange('communicationFrequency', value)}
           error={errors?.communicationFrequency}
@@ -40,12 +36,7 @@ function Preferences({
         <Select
           label="Follow-up Method"
           name="followUpMethod"
-          options={[
-            { label: 'Email only', value: 'email' },
-            { label: 'Phone only', value: 'phone' },
-            { label: 'Both email and phone', value: 'both' },
-            { label: 'No follow-up needed', value: 'none' },
-          ]}
+          options={FOLLOW_UP_METHOD}
           value={data.followUpMethod}
           onChange={(value) => onChange('followUpMethod', value)}
           error={errors?.followUpMethod}
@@ -69,13 +60,7 @@ function Preferences({
           What topics would you like to hear about?
         </Text>
         <BlockStack>
-          {[
-            { label: 'Product Updates', value: 'product-updates' },
-            { label: 'Industry News', value: 'industry-news' },
-            { label: 'Case Studies', value: 'case-studies' },
-            { label: 'Webinars & Events', value: 'webinars' },
-            { label: 'Technical Articles', value: 'technical' },
-          ].map((interest) => (
+          {INTERESTS.map((interest) => (
             <Checkbox
               key={interest.value}
               label={interest.label}
@@ -90,15 +75,7 @@ function Preferences({
       <Select
         label="How did you hear about us? (Optional)"
         name="referralSource"
-        options={[
-          { label: 'Please select...', value: '' },
-          { label: 'Search Engine', value: 'search-engine' },
-          { label: 'Social Media', value: 'social-media' },
-          { label: 'Referral from friend/colleague', value: 'referral' },
-          { label: 'Online Advertisement', value: 'advertisement' },
-          { label: 'Conference/Event', value: 'event' },
-          { label: 'Other', value: 'other' },
-        ]}
+        options={REFERRAL_SOURCE}
         value={data.referralSource || ''}
         onChange={(value) => onChange('referralSource', value)}
       />
@@ -171,5 +148,3 @@ function Preferences({
     </FormLayout>
   );
 }
-
-export default Preferences;

@@ -1,4 +1,4 @@
-# Multi-Step Contact Form
+# Contact Form
 
 A comprehensive, accessible multi-step contact form built with Remix, TypeScript, and Shopify Polaris. This form provides a smooth user experience with client-side validation, progress tracking, and responsive design.
 

@@ -241,6 +241,7 @@ const ContactPage = () => {
                     <TextField
                       label="First Name"
                       name="firstName"
+                      placeholder={"John"}
                       value={formData.firstName}
                       onChange={(value) => updateField("firstName", value)}
                       error={actionData?.errors?.firstName}
@@ -252,6 +253,7 @@ const ContactPage = () => {
                     <TextField
                       label="Last Name"
                       name="lastName"
+                      placeholder={"Doe"}
                       value={formData.lastName}
                       onChange={(value) => updateField("lastName", value)}
                       error={actionData?.errors?.lastName}
@@ -266,6 +268,7 @@ const ContactPage = () => {
                     <TextField
                       label="Email"
                       name="email"
+                      placeholder={"2L1YV@example.com"}
                       type="email"
                       value={formData.email}
                       onChange={(value) => updateField("email", value)}
@@ -279,6 +282,7 @@ const ContactPage = () => {
                       label="Phone Number"
                       name="phone"
                       type="tel"
+                      placeholder={"(123) 456-7890"}
                       value={formData.phone}
                       onChange={(value) => updateField("phone", value)}
                       error={actionData?.errors?.phone}

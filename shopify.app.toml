@@ -2,7 +2,7 @@
 
 client_id = "cfd221f705a6f787daa445dc0a71229a"
 name = "contact-app"
-application_url = "https://nato-believe-officials-phpbb.trycloudflare.com"
+application_url = "https://psychiatry-trout-deleted-accurate.trycloudflare.com"
 embedded = true
 handle = "contact-app-7"
 
@@ -26,7 +26,7 @@ api_version = "2025-07"
 scopes = "write_products"
 
 [auth]
-redirect_urls = ["https://nato-believe-officials-phpbb.trycloudflare.com/auth/callback", "https://nato-believe-officials-phpbb.trycloudflare.com/auth/shopify/callback", "https://nato-believe-officials-phpbb.trycloudflare.com/api/auth/callback"]
+redirect_urls = ["https://psychiatry-trout-deleted-accurate.trycloudflare.com/auth/callback", "https://psychiatry-trout-deleted-accurate.trycloudflare.com/auth/shopify/callback", "https://psychiatry-trout-deleted-accurate.trycloudflare.com/api/auth/callback"]
 
 [pos]
 embedded = false
